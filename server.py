@@ -9,14 +9,12 @@ app = Flask(__name__)
 @app.route('/files')
 def list_files():
     allowed_exts = ('.png', '.jpg', '.jpeg', '.gif', '.mp4')
-    # Get all files with their modification time
     files_with_time = []
     for f in os.listdir(SIGNAGE_FOLDER):
         if f.lower().endswith(allowed_exts):
             path = os.path.join(SIGNAGE_FOLDER, f)
-            mtime = os.path.getmtime(path)  # modification time
+            mtime = os.path.getmtime(path)
             files_with_time.append((f, mtime))
-    # Sort by mtime ascending
     files_sorted = [f for f, t in sorted(files_with_time, key=lambda x: x[1])]
     return jsonify(files_sorted)
 
